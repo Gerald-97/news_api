@@ -1,0 +1,18 @@
+import 'package:redis_dart/redis_dart.dart';
+
+import '../server.dart';
+import '../services/news_service.dart';
+import '../utils/logger.dart';
+import '../utils/strings.dart';
+
+class NewsImplementation {
+  static Future<String> getNewsHeadlines({String? url}) async {
+    final news = await NewsService.getHeadlineNews();
+    if (news.status) {
+      redisClient.set(gNewsToken, news.data?.toJson());
+
+      return news.data!.toJson();
+    }
+    return {"message": news.message};
+  }
+}

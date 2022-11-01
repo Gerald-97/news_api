@@ -1,0 +1,3 @@
+class NewsService {
+  Future<News>
+}
