@@ -12,6 +12,8 @@ late RedisClient redisClient;
 String? mainUrl;
 
 void main(List<String> args) async {
+  env = DotEnv(includePlatformEnvironment: true)..load();
+
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
 

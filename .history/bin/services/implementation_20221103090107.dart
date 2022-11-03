@@ -20,6 +20,7 @@ class NewsImplementation {
 
     var result = await redisClient.getMap(url);
     if (result.value.isNotEmpty) {
+      print("Redis: ${result.value}");
       return jsonEncode(result.value.toString());
     } else {
       final news = await NewsService.getHeadlineNews(url, site: site);

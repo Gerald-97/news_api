@@ -10,7 +10,7 @@ class NewsImplementation {
     if (site == nytimesKey) {
       return "$nytimesUrl?q=${search ?? "headline"}&api-key=$nytimesApiKey";
     }
-    return "$gNewsUrl${search != null ? "search?q=$search&token=$gnewsApiKey&lang=en&country=us&max=20" : "top-headlines?lang=en&token=$gnewsApiKey"}";
+    return "$gNewsUrl${search != null ? "search?q=$search&token=$&lang=en&country=us&max=20" : "top-headlines?lang=en&token=${env[site!]}"}";
   }
 
   static Future<String> getNewsHeadlines(
@@ -20,6 +20,7 @@ class NewsImplementation {
 
     var result = await redisClient.getMap(url);
     if (result.value.isNotEmpty) {
+      print("Redis: ${result.value}");
       return jsonEncode(result.value.toString());
     } else {
       final news = await NewsService.getHeadlineNews(url, site: site);

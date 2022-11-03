@@ -9,9 +9,12 @@ import 'router/router.dart';
 // Configure routes.
 
 late RedisClient redisClient;
+late DotEnv env;
 String? mainUrl;
 
 void main(List<String> args) async {
+  env = DotEnv(includePlatformEnvironment: true)..load();
+
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
 

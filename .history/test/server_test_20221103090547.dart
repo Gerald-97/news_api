@@ -30,4 +30,10 @@ void main() {
     final response = await get(Uri.parse('$host/foobar'));
     expect(response.statusCode, 404);
   });
+
+
+  test('News', () async {
+    final response = await get(Uri.parse('$host/foobar'));
+    expect(response.statusCode, 404);
+  });
 }
