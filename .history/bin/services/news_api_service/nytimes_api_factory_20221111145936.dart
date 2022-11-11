@@ -1,0 +1,1 @@
+class NyTimesApiFactory extends NewsAp

@@ -1,0 +1,1 @@
+class NyTimesApiFactory ext
