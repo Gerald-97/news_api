@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
-import '../services/implementation.dart';
 import '../services/news_api_service/gnews_api_factory.dart';
 import '../services/news_api_service/news_api_interface.dart';
+import '../services/news_api_service/nytimes_api_factory.dart';
 import '../utils/strings.dart';
 
 Response rootHandler(Request req) {
@@ -12,7 +12,7 @@ Response rootHandler(Request req) {
 
 NewsApiInterface getInterface(Request request) {
   if (request.url.queryParameters["source"] == nytimesKey) {
-    return GNewsApiFactory(
+    return NyTimesApiFactory(
       query: request.url.queryParameters["search"],
       numberOfArticles:
           int.parse(request.url.queryParameters["count"] ?? "100"),

@@ -1,6 +1,7 @@
 # Files and directories created by pub.
 .dart_tool/
 .packages
+.history/
 bin/utils/api_key.dart
 
 # Conventional directory for build output.

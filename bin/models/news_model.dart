@@ -1,4 +1,3 @@
-import '../utils/strings.dart';
 
 class NewsModel {
   String title, content;
