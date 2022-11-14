@@ -21,7 +21,7 @@ void main(List<String> args) async {
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(handler, ip, port);
-  // redisClient = await RedisClient.connect("localhost");
+  redisClient = await RedisClient.connect("localhost");
 
   print('Server listening on port ${server.port}');
 }
