@@ -5,10 +5,8 @@ import '../../utils/strings.dart';
 import '../../utils/api_key.dart';
 
 class GNewsApiFactory extends NewsApiInterface {
-  String? query, author;
-  int numberOfArticles = 100;
-
-  GNewsApiFactory({this.query, this.author, this.numberOfArticles = 100});
+  GNewsApiFactory({query, author, numberOfArticles})
+      : super(query: query, author: author, numberOfArticles: 20);
 
   static NewsModel _getModelFromGNewsJson(Map<String, dynamic> json) =>
       NewsModel(
@@ -48,7 +46,7 @@ class GNewsApiFactory extends NewsApiInterface {
   @override
   Future<NewsFeed> queryNewsArticlesFromAuthor() async {
     String url =
-        "${gNewsUrl}search?q=$query&token=$gnewsApiKey&lang=en&country=us&max=$numberOfArticles";
+        "${gNewsUrl}search?q=$author&token=$gnewsApiKey&lang=en&country=us&max=$numberOfArticles";
     var response = await NewsService.getNews(url);
     return _getFeedFromGNewsJson(response.data!);
   }

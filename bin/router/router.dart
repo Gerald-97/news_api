@@ -3,5 +3,4 @@ import '../controllers/controllers.dart';
 
 final router = Router()
   ..get('/', rootHandler)
-  ..get('/news', newsHandler)
-  ..get('/news/search', searchHandler);
+  ..get('/news', newsHandler);

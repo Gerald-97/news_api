@@ -5,10 +5,12 @@ import '../../utils/strings.dart';
 import '../../utils/api_key.dart';
 
 class NyTimesApiFactory extends NewsApiInterface {
-  String? query, author;
-  int numberOfArticles = 100;
+  // String? query, author;
+  // int? numberOfArticles;
 
-  NyTimesApiFactory({this.query, this.author, this.numberOfArticles = 100});
+  // NyTimesApiFactory({this.query, this.author, this.numberOfArticles = 20});
+  NyTimesApiFactory({query, author, numberOfArticles})
+      : super(query: query, author: author, numberOfArticles: 20);
 
   static NewsModel _getModelFromNYTNewsJson(Map<String, dynamic> json) =>
       NewsModel(
@@ -40,20 +42,26 @@ class NyTimesApiFactory extends NewsApiInterface {
   Future<NewsFeed> getNewsArticles() async {
     String url = "$nytimesUrl?q=headline&api-key=$nytimesApiKey";
     var response = await NewsService.getNews(url);
-    return _getFeedFromNYTNewsJson(response.data!);
+    var res = _getFeedFromNYTNewsJson(response.data!);
+    print("Count: ${res.feed.length}");
+    return res;
   }
 
   @override
   Future<NewsFeed> queryNewsArticles() async {
     String url = "$nytimesUrl?q=$query&api-key=$nytimesApiKey";
     var response = await NewsService.getNews(url);
-    return _getFeedFromNYTNewsJson(response.data!);
+    var res = _getFeedFromNYTNewsJson(response.data!);
+    print("Count: ${res.feed.length}");
+    return res;
   }
 
   @override
   Future<NewsFeed> queryNewsArticlesFromAuthor() async {
-    String url = "$nytimesUrl?q=$query&api-key=$nytimesApiKey";
+    String url = "$nytimesUrl?q=$author&api-key=$nytimesApiKey";
     var response = await NewsService.getNews(url);
-    return _getFeedFromNYTNewsJson(response.data!);
+    var res = _getFeedFromNYTNewsJson(response.data!);
+    print("Count: ${res.feed.length}");
+    return res;
   }
 }

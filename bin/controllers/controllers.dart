@@ -11,29 +11,32 @@ Response rootHandler(Request req) {
 }
 
 NewsApiInterface getInterface(Request request) {
-  if (request.url.queryParameters["source"] == nytimesKey) {
+  if (request.url.queryParameters["source"] != null &&
+      request.url.queryParameters["source"] == nytimesKey) {
     return NyTimesApiFactory(
       query: request.url.queryParameters["search"],
       numberOfArticles:
-          int.parse(request.url.queryParameters["count"] ?? "100"),
+          int.tryParse(request.url.queryParameters["count"] ?? "20"),
       author: request.url.queryParameters["author"],
     );
   }
   return GNewsApiFactory(
     query: request.url.queryParameters["search"],
-    numberOfArticles: int.parse(request.url.queryParameters["count"] ?? "100"),
+    numberOfArticles:
+        int.tryParse(request.url.queryParameters["count"] ?? "20"),
     author: request.url.queryParameters["author"],
   );
 }
 
 Future<Response> newsHandler(Request request) async {
   print(request.url.queryParameters);
-  final news = await getInterface(request).getNewsArticles();
-  return Response.ok(jsonEncode(news));
-}
-
-Future<Response> searchHandler(Request request) async {
-  print(request.url.queryParameters);
-  final news = await getInterface(request).queryNewsArticles();
-  return Response.ok(jsonEncode(news));
+  final _interface = getInterface(request);
+  if (_interface.query != null) {
+    return Response.ok(
+      jsonEncode((await _interface.queryNewsArticles()).toJson()),
+    );
+  }
+  return Response.ok(
+    jsonEncode((await _interface.getNewsArticles()).toJson()),
+  );
 }
