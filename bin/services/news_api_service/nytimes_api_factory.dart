@@ -5,10 +5,6 @@ import '../../utils/strings.dart';
 import '../../utils/api_key.dart';
 
 class NyTimesApiFactory extends NewsApiInterface {
-  // String? query, author;
-  // int? numberOfArticles;
-
-  // NyTimesApiFactory({this.query, this.author, this.numberOfArticles = 20});
   NyTimesApiFactory({query, author, numberOfArticles})
       : super(query: query, author: author, numberOfArticles: 20);
 
