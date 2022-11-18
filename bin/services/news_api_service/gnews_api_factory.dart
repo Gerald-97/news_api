@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import '../../models/news_model.dart';
+import '../../server.dart';
 import '../news_service.dart';
 import 'news_api_interface.dart';
 import '../../utils/strings.dart';
@@ -31,8 +34,31 @@ class GNewsApiFactory extends NewsApiInterface {
   Future<NewsFeed> getNewsArticles() async {
     String url =
         "${gNewsUrl}top-headlines?lang=en&token=$gnewsApiKey&max=$numberOfArticles";
-    var response = await NewsService.getNews(url);
-    return _getFeedFromGNewsJson(response.data!);
+    print(url);
+    // redisClient.expireAt(url, DateTime.now().add(Duration(minutes: 30)));
+    // redisClient.delete(url);
+
+    try {
+      var result = await redisClient.getMap(url);
+      print("Redis log: ${result.value.runtimeType}");
+      print("Redis log decode: ${result.value}");
+    } catch (e, stack) {
+      print("$e\n$stack");
+    }
+    // var result = await redisClient.getMap(url);
+
+    // if (result.value != null) {
+    //   print("Redis value: ${result.value}");
+    //   return NewsFeed.fromJson(result.value);
+    // } else {
+      var response = await NewsService.getNews(url);
+      if (response.status) {
+        var data = _getFeedFromGNewsJson(response.data!);
+
+        await redisClient.setMap(url, data.toJson());
+      }
+      return _getFeedFromGNewsJson(response.data!);
+    // }
   }
 
   @override
